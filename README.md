@@ -33,3 +33,5 @@ The `consul` directory includes resources for configuring Consul.
 - istio.io
 - hashicorp/consul
 
+
+## Setup instructions
