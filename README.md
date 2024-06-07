@@ -35,3 +35,4 @@ The `consul` directory includes resources for configuring Consul.
 
 
 ## Setup instructions
+- Configurer prerequisites mentioned above
