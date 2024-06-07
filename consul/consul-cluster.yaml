@@ -1,0 +1,7 @@
+global:
+  name: consul
+  datacenter: my-dc
+server:
+  replicas: 1
+client:
+  enabled: true

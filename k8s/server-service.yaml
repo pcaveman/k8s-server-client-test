@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+  namespace: server-ns
+spec:
+  type: ClusterIP
+  selector:
+    app: mio-server
+  ports:
+    - protocol: TCP
+      port: 8181          # Porta esterna del servizio
+      targetPort: 8181    # Porta del container

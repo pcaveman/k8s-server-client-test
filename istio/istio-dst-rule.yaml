@@ -1,0 +1,45 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  mtls:
+    mode: PERMISSIVE
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: server-ns-peerauth
+  namespace: server-ns
+spec:
+  mtls:
+    mode: PERMISSIVE
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-virtualservice
+  namespace: server-ns
+spec:
+  hosts:
+  - server-service.server-ns.svc.cluster.local
+  tcp:
+  - match:
+    - port: 8181
+    route:
+    - destination:
+        host: server-service.server-ns.svc.cluster.local
+        port:
+          number: 8181
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: my-dst-rule
+  namespace: server-ns
+spec:
+  host: server-service.server-ns.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE    

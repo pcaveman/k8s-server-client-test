@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+  namespace: server-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mio-client
+  template:
+    metadata:
+      labels:
+        app: mio-client
+    spec:
+      containers:
+      - name: mio-client
+        image: my-client-image:latest # nginx:latest # my-server-image:latest
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /var/log/client
+          name: log-storage
+      volumes:
+      - name: log-storage
+        persistentVolumeClaim:
+          claimName: log-pvc

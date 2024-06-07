@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  namespace: server-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mio-server
+  template:
+    metadata:
+      labels:
+        app: mio-server
+    spec:
+      containers:
+      - name: mio-server
+        image: my-server-image:latest # nginx:latest # my-server-image:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8181
+        volumeMounts:
+        - mountPath: /var/log/server
+          name: log-storage
+      volumes:
+      - name: log-storage
+        persistentVolumeClaim:
+          claimName: log-pvc
