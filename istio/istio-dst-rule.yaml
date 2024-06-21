@@ -32,6 +32,7 @@ spec:
         host: server-service.server-ns.svc.cluster.local
         port:
           number: 8181
+      weight: 100
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
