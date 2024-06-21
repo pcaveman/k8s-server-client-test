@@ -32,6 +32,7 @@ spec:
         host: server-service.server-ns.svc.cluster.local
         port:
           number: 8181
+      weight: 100
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -41,5 +42,8 @@ metadata:
 spec:
   host: server-service.server-ns.svc.cluster.local
   trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
     tls:
       mode: DISABLE    
+---

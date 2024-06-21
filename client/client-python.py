@@ -51,7 +51,8 @@ if __name__ == '__main__':
         while not client.status():
             client.connect()
             logging.info("Connected to the server.")
-        print("Server time is:", client.get_time())
+        curTime = client.get_time()
+        logging.info(f"Server time is: {curTime}")
         time.sleep(10)
         
     client.disconnect()

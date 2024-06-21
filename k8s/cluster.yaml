@@ -64,7 +64,8 @@ spec:
   selector:
     app: mio-server
   ports:
-    - protocol: TCP
+    - name: tcp-8181
+      protocol: TCP
       port: 8181          # Porta esterna del servizio
       targetPort: 8181    # Porta del container
 ---

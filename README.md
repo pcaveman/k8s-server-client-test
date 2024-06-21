@@ -67,6 +67,9 @@ k apply -f ./k8s/cluster.yaml
 k get all
 k exec -n server-ns -it server-deployment-785c46c697-7xg2w -- /bin/sh
 
+### remove k8s deployments
+k delete deployments,service --all
+
 ### istio analyse
 istioctl dashboard
 istioctl dashboard kiali
@@ -76,3 +79,16 @@ istioctl dashboard envoy server-deployment-6ffdffd9f9-qf4tt.server-ns
 istioctl proxy-config cluster client-deployment-86747c8d66-l29sp -n server-ns
 istioctl proxy-config route client-deployment-86747c8d66-l29sp -n server-ns
 
+### istio disabling for delivering sidecar container
+
+k label namespace server-ns istio-injection=disabled
+
+### istio removal
+
+kubectl delete -f <aplicacion-1.yml>
+kubectl delete -f <aplicacion-2.yml>
+kubectl get namespaces
+istioctl uninstall --purge
+kubectl delete namespace istio-system
+kubectl get crds | grep 'istio.io' | awk '{print $1}' | xargs kubectl delete crd
+kubectl get all --all-namespaces | grep -i istio

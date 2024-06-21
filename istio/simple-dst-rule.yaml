@@ -4,7 +4,7 @@ metadata:
   name: my-dst-rule
   namespace: server-ns
 spec:
-  host: server-service
+  host: server-service.server-ns.svc.cluster.local
   trafficPolicy:
     tls:
       mode: DISABLE
