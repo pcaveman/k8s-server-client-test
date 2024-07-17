@@ -1,0 +1,82 @@
+# Default values for helm-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+# server-deployment.yaml
+# Número de réplicas para el despliegue
+serverReplicas: 3
+
+# Nombre del despliegue
+serverName: server-deployment
+
+# Namespace en el que se va a desplegar
+namespace: server-ns
+
+# Nombre de la aplicación utilizado en etiquetas y nombres
+serverApp: mio-server
+
+# Configuración de la imagen del contenedor
+serverImage:
+  # Repositorio de la imagen del contenedor
+  repository: my-server-image
+  # Etiqueta de la imagen del contenedor
+  tag: latest
+  # Política de pull de la imagen del contenedor
+  pullPolicy: IfNotPresent
+
+# Puerto del contenedor
+containerPort: 8181
+
+# Configuración de montaje del volumen
+serverVolumeMount:
+  # Ruta de montaje en el contenedor
+  mountPath: /var/log/server
+
+# Configuración del volumen
+volume:
+  # Nombre del volumen
+  name: log-storage
+  # Nombre del PersistentVolumeClaim
+  pvcName: log-pvc
+
+
+### service.yaml
+# Valores definidos para el despliegue
+
+service:
+  name: server-service
+  type: ClusterIP
+  port:
+    name: tcp-8181
+    protocol: TCP
+    targetPort: 8181
+
+
+# Valores para el client deployment
+clientDeployment:
+  replicas: 3
+  name: client-deployment
+  app: mio-client
+  image:
+    repository: my-client-image
+    tag: latest
+    pullPolicy: IfNotPresent
+  volumeMount:
+    mountPath: /var/log/client
+
+
+# Valores para el PersistentVolume
+persistentVolume:
+  name: log-pv
+  storageClassName: manual
+  capacity: 100Mi
+  accessModes: ReadWriteOnce
+  hostPath: /home/pcaveman/projects/log
+
+
+# Valores para el PersistentVolumeClaim
+persistentVolumeClaim:
+  storageClassName: manual
+  accessModes: ReadWriteOnce
+  storage: 100Mi
