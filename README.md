@@ -40,6 +40,18 @@ The `consul` directory includes resources for configuring Consul.
 required for istio to find a cluster
 microk8s config > ~/.kube/config
 
+### install helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+helm repo add stable https://charts.helm.sh/stable
+helm repo update
+
+### install terraform
+sudo apt-get update && sudo apt-get upgrade -y
+wget https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip
+sudo apt-get install unzip -y
+unzip terraform_1.9.2_linux_amd64.zip
+sudo mv terraform /usr/local/bin/
+terraform version
 
 ### images
 running buildkit: sudo ~/.local/bin/buildkitd
@@ -92,3 +104,28 @@ istioctl uninstall --purge
 kubectl delete namespace istio-system
 kubectl get crds | grep 'istio.io' | awk '{print $1}' | xargs kubectl delete crd
 kubectl get all --all-namespaces | grep -i istio
+
+### helm install with k8s
+helm install mio-server ./my-chart
+helm uninstall mio-server
+
+### terraform install with k8s
+alias t=terraform
+cd "terraform" folder
+t init
+t import
+t plan
+t apply
+t show
+t destroy
+
+## TODO
+- helm chart
+  + extract parameters into values (e.g. port)
+  + delivery to local cluster
+  - delivery resources for istio
+- terraform
+  + delivery to local k8s cluster
+  - delivery to GKE
+- observability 
+  - add info to prometheus, not only in logs
