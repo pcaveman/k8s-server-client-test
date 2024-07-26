@@ -10,7 +10,8 @@ COPY server-python.py /my_script.py
 COPY requirements.txt /requirements.txt
 
 # Install the requirements
-RUN pip3 install -r /requirements.txt
+# RUN pip3 install -r /requirements.txt
+RUN apk add --no-cache py3-prometheus-client
 
 # Exécuter le script Python lors du démarrage du conteneur
 CMD ["python3", "/my_script.py"]
