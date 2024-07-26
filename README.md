@@ -9,6 +9,10 @@ This project aims to test different aspects within a Kubernetes (k8s) cluster.
 ### Server / Client Directories
 These directories contain two simple applications that are connected via TCP and store logs on the hard disk.
 
+#### prerequisite for Python
+python3.12 -m pip install --upgrade pip
+pip3.12 install -r requirements.txt
+
 ### k8s Directory
 The `k8s` directory includes resources for the k8s cluster:
 - Two deployments

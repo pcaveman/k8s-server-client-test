@@ -2,13 +2,19 @@ import socket
 from datetime import datetime
 import threading
 import logging
+import re
+
+from prometheus_client import start_http_server, Counter
 
 class Server:
     def __init__(self, host='0.0.0.0', port=8181):
+        start_http_server(8000)
         self.host = host
         self.port = port
         self.clientsNumber = 0
         hname = socket.gethostname()
+        metricname = re.sub(r'[^a-zA-Z0-9]', '_', hname)
+        self.clientCounter = Counter(f'{metricname}_client_metric', 'Number of current connected clients')
         logging.basicConfig(
             filename=f'/var/log/server/{hname}_log.log',  # Spécifiez le nom du fichier de log
             level=logging.DEBUG,  # Niveau de log minimal à capturer
@@ -22,6 +28,7 @@ class Server:
 
     def handle_client(self, client_socket):
         self.clientsNumber += 1
+        self.clientCounter.inc()
         while True:
             request = client_socket.recv(1024).decode()
             if not request:
@@ -34,6 +41,7 @@ class Server:
                 logging.debug(f'current client numbers {self.clientsNumber}')
         client_socket.close()
         self.clientsNumber -= 1
+        self.clientCounter.dec()
 
     def run(self):
         logging.info(f'Starting server on {self.host}:{self.port}')
