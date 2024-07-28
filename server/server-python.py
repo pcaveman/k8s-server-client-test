@@ -27,21 +27,25 @@ class Server:
 
 
     def handle_client(self, client_socket):
-        self.clientsNumber += 1
-        self.clientCounter.inc()
+        counted = False
         while True:
             request = client_socket.recv(1024).decode()
             if not request:
                 break  # Si la requête est vide, nous quittons la boucle
             if request == 'GET TIME':
+                if (counted == False):
+                    counted = True
+                    self.clientsNumber += 1
+                    self.clientCounter.inc()
                 hname = socket.gethostname()
                 my_date = datetime.now().strftime(': %Y-%m-%d %H:%M:%S')
                 current_time = f'{hname} : {my_date}' 
                 client_socket.sendall(current_time.encode())
                 logging.debug(f'current client numbers {self.clientsNumber}')
         client_socket.close()
-        self.clientsNumber -= 1
-        self.clientCounter.dec()
+        if (counted == True):
+            self.clientsNumber -= 1
+            self.clientCounter.dec()
 
     def run(self):
         logging.info(f'Starting server on {self.host}:{self.port}')
