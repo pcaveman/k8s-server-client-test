@@ -1,0 +1,24 @@
+Plan:
+1) What is service mesh
+2) What is proxy envoy. Sidecar
+3) What additional data we have when we use istio
+4) Using istio metrics for to get the same info that we implemented in business logic
+5) Results of testing and features to research
+  - TCP features are limited in the sense of splitting the traffic
+  - usage of istio with multi cluster environment to balance traffic to be explored
+  - google service mesh (traffic director) also uses envoy proxies but uses other approach than istio
+
+What should be configured:
+- microk8s running
+- deliver our application: 
+  - k apply -f k8s/cluster.yaml
+- install istioctl
+- describe cluster for istio: 
+  - microk8s config > ~/.kube/config
+- add path to istioctl in .bashrc
+- install istio panel in k8s cluster: istioctl install --set profile=demo 
+- add our namespace to those that istio will provide Sidecar for
+  - k label namespace server-ns istio-injection=enabled
+- install grafana, prometheus, etc
+  - change services from ClusterIp -> NodePort (with nodePort: 3000X)
+  - k apply -f istio-1.22.3/samples/addons
