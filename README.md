@@ -82,6 +82,7 @@ k delete service,deployment,pv,pvc --all -n server-ns
 k apply -f ./k8s/cluster.yaml
 k get all
 k exec -n server-ns -it server-deployment-785c46c697-7xg2w -- /bin/sh
+k scale deployment client-deployment --replicas=6 -n server-ns
 
 ### remove k8s deployments
 k delete deployments,service --all
