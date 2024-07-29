@@ -1,0 +1,33 @@
+- Description: server - client connected over TCP socket
+- Where: VM provided by Google Compute Engine
+  - Compute Engine VM
+  - Firewall rule to allow to access Prometheus server port from my laptop by IP
+  On provisioned VM:
+  - container engine (containerd)
+  - buildctl / nerdctl tools to work with container images
+  - microk8s for local k8s cluster
+  - repository: https://github.com/pcaveman/k8s-server-client-test.git
+    branch: origin/prometheus-test
+- App description:
+  - server publishes number of connected clients to prometheus
+  - client connects description
+- k8s cluster description
+  - server
+    - deployment
+    - service
+  - client
+    - deployment
+  - prometheus
+    - deployment
+    - service
+
+actions:
+ alias k=microk8s.kubectl
+ k delete deployment -all -n server-ns
+ k delete deployment --all -n server-ns
+ cd k8s-server-client-test/
+ k apply -f k8s/cluster.yaml
+ k apply -f config-map.yml  
+ k apply -f k8s/prometheus/prometheus-deployment.yml 
+ k scale deployment server-deployment --replicas 1 -n server-ns
+ k get all -n server-ns
