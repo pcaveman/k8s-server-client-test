@@ -2,7 +2,7 @@
 
 # Kubernetes Cluster Testing Project
 
-This project aims to test different aspects within a Kubernetes (k8s) cluster.
+This project aims to test difƒferent aspects within a Kubernetes (k8s) cluster.
 
 ## Overview
 
@@ -90,6 +90,8 @@ k delete deployments,service --all
 istioctl dashboard
 istioctl dashboard kiali
 istioctl dashboard envoy server-deployment-6ffdffd9f9-qf4tt.server-ns
+k get all -n istio-system
+k port-forward grafana-657df88ffd-pltht  -n istio-system 3000:3000
 
 
 istioctl proxy-config cluster client-deployment-86747c8d66-l29sp -n server-ns
@@ -133,3 +135,18 @@ t destroy
   - delivery to GKE
 - observability 
   - add info to prometheus, not only in logs
+
+
+
+
+
+
+  1) Active-Active mode in multy cluster environment accross different data centers. google service mash (based on ip, not http headers)
+  1.1) short demo-videos - sharing with AA-core also
+  2) gcloud access for bootstrap team + devops on testing on the code
+  3) riskmonitor question on margin - for Frylock
+
+
+  matt brown - gke manager?
+
+  anthos on prem (legacy )

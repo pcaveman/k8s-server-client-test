@@ -12,6 +12,9 @@ spec:
     metadata:
       labels:
         app: {{ .Values.serverApp }}
+        annotations:
+          prometheus.io/scrape: {{ .Values.prometheusScrape }}
+          prometheus.io/port: {{ .Values.prometheusContainerPort }}
     spec:
       containers:
         - name: {{ .Values.serverApp }}
@@ -19,6 +22,9 @@ spec:
           imagePullPolicy: {{ .Values.serverImage.pullPolicy }}
           ports:
             - containerPort: {{ .Values.containerPort }}
+              name: {{ .Values.messagePortName }}
+            - containerPort: {{ .Values.prometheusContainerPort }}
+              name: {{ .Values.metricsPortName }}
           volumeMounts:
             - mountPath: {{ .Values.serverVolumeMount.mountPath }}
               name: {{ .Values.volume.name }}

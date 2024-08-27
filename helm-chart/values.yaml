@@ -25,8 +25,16 @@ serverImage:
   # Política de pull de la imagen del contenedor
   pullPolicy: IfNotPresent
 
+pormetheusScrape: true
+prometheusContainerPort: 8000
+
 # Puerto del contenedor
 containerPort: 8181
+messagePortName: message-port
+
+# Nombre del puerto de prometheus
+prometheusContainerPort: 8000
+metricsPortName: metrics-port
 
 # Configuración de montaje del volumen
 serverVolumeMount:
@@ -51,6 +59,9 @@ service:
     name: tcp-8181
     protocol: TCP
     targetPort: 8181
+    prometheusName: tcp-9090
+    prometheusProtocol: TCP
+    prometheusTargetPort: 
 
 
 # Valores para el client deployment
